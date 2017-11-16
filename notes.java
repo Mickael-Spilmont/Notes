@@ -122,26 +122,30 @@ class Notes{
 	}
     }
 
-    void historigrammeH(){
+    String historigrammeH(){
 	// Affiche un historigramme horizontale
+	String historigramme;
+
+	historigramme = "";
 	for (int i = plusHauteNote() ; i >= -1 ; i--){
 	    for (int j = 0 ; j < tabNotes.length ; j ++){
 		// ces lignes affiche le bas de l'historigramme
 		if (i < 1){
 		    if (i == 0)
-			System.out.print(tabNotesChaine[j].charAt(0) + " ");
+			historigramme += tabNotesChaine[j].charAt(0) + " ";
 		    else
-			System.out.print(tabNotesChaine[j].charAt(1) + " ");
+			historigramme +=tabNotesChaine[j].charAt(1) + " ";
 		}
 		// Ces ligne permettent de définir si il faut mettre des espaces
 		// ou un caractere
 		else if (tabNotes[j] >= i)
-		    System.out.print("\u2588 ");
+		    historigramme += "\u2588 ";
 		else
-		    System.out.print("  ");
+		    historigramme += "  ";
 	    }
-	    System.out.print("\n");
+	    historigramme += "\n";
 	}
+	return historigramme;
     }
 }
 
@@ -157,6 +161,6 @@ class Main{
 	mesNotes.remplirTableauAleatoire();
 	System.out.print("\n");
 	System.out.print(mesNotes.afficherTableau());
-	mesNotes.historigrammeH();
+	System.out.print(mesNotes.historigrammeH());
     }
 }
