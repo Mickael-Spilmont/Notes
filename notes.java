@@ -3,14 +3,19 @@ import java.util.Random;
 
 class Notes{
     private int[] tabNotes;
-    private String[][] tabBox = {{"\u2554\u2550\u2550\u2566", "\u2550\u2550\u2566", "\u2550\u2550\u2557\n\u2551"},
-				 {"\u2560\u2550\u2550\u256c", "\u2550\u2550\u256c", "\u2550\u2550\u2563\n\u2551"},
-				 {"\u255a\u2550\u2550\u2569", "\u2550\u2550\u2569", "\u2550\u2550\u255d\n"}
+    private String[] tabNotesChaine;
+    // tableau contetant les caracteres unicodes necessaire à l'affichage du tableau de note
+    private String[][] tabBox = {{"\u2554\u2550", "\u2550\u2566\u2550", "\u2550\u2557\n"},
+				 {"\u2551", "\u2551\n"},
+				 {"\u2560\u2550", "\u2550\u256c\u2550", "\u2550\u2563\n"},
+				 {"\u2551", "\u2551\n"},
+				 {"\u255a\u2550", "\u2550\u2569\u2550", "\u2550\u255d\n"}
     };
 
     Notes(){
 	// Constructeur, génere un tableau vide de 21 cases
 	tabNotes = new int [21];
+	tabNotesChaine = new String[21];
     }
 
     void remplirTableau(){
@@ -23,6 +28,7 @@ class Notes{
 	    tabNotes[note] ++;
 	    note = sc.nextInt();
 	}
+	remplirTableauChaine();
     }
 
     void remplirTableauAleatoire(){
@@ -35,57 +41,41 @@ class Notes{
 	for (int i = 0 ; i < tabNotes.length ; i++){
 	    tabNotes[i] = generateur.nextInt(11);
 	}
+	remplirTableauChaine();
     }
 
     String afficherTableau(){
-	// Affiche le contenu du tableau
-	String tableau;
+	// Affiche le contenu du tableau, en construisant une chaine à partir des tableaux ()
+	String tableau, donnees;
 
 	tableau = "";
 	for (int i = 0 ; i < 5 ; i++){
 	    for (int j = 0 ; j < tabNotes.length ; j++){
-
-		if (i == 0){
+		// Construction des lignes horizontales
+		if (i % 2 == 0){
+		    // Permet de detecter le début de ligne
 		    if (j == 0)
-			System.out.print(tabBox[0][0]);
+			tableau += tabBox[i][0];
+		    // Permet de detecter la fin de ligne
 		    else if (j == 20)
-			System.out.print(tabBox[0][2]);
+			tableau += tabBox[i][1] + tabBox[i][2];
 		    else
-			System.out.print(tabBox[0][1]);
+			tableau += tabBox[i][1];
 		}
-		else if (i == 2){
-		    if (j == 0)
-			System.out.print(tabBox[1][0]);
-		    else if (j == 20)
-			System.out.print(tabBox[1][2]);
-		    else
-			System.out.print(tabBox[1][1]);
-		}
-		else if (i == 4){
-		    if (j == 0)
-			System.out.print(tabBox[2][0]);
-		    else if (j == 20)
-			System.out.print(tabBox[2][2]);
-		    else
-			System.out.print(tabBox[2][1]);
-		}
-		else if (i == 1){
-		    if (j < 10)
-		    	System.out.print("0" + j + "\u2551");
-		    else if (j == 20)
-			System.out.print(j + "\u2551\n");
-		    else
-		    	System.out.print(j + "\u2551");
-		}
+	    
+		// Construction des cases contenant les données
 		else{
-		    if (tabNotes[j] < 10 && j != 20)
-		    	System.out.print("0" + tabNotes[j] + "\u2551");
-		    else if (tabNotes[j] < 10 && j == 20)
-			System.out.print("0" + tabNotes[j] + "\u2551\n");
-		    else if (j == 20)
-			System.out.print(j + "\u2551\n");
+		    // Selection des donnees à afficher, selon que l'on soit à l'entête ou à la
+		    // première ligne du tableau
+		    if (i == 1)
+			donnees = tabNotesChaine[j].substring(0,2);
 		    else
-		    	System.out.print(tabNotes[j] + "\u2551");
+			donnees = tabNotesChaine[j].substring(2);
+		    // Permet de detecter quant on arrive à la fin du tableau
+		    if (j == 20)
+			tableau += tabBox[i][0] + donnees + tabBox[i][0] + "\n";
+		    else
+			tableau += tabBox[i][0] + donnees;
 		}
 	    }
 	}
@@ -105,18 +95,20 @@ class Notes{
 	return noteMax;
     }
 
-    String[] historigrammeBas(){
-	// Genere un tableau permetant de créer le bas de l'historigramme horizontale
-	String[] bas;
-
-	bas = new String [21];
-	for (int i = 0 ; i < 21 ; i++){
+    void remplirTableauChaine(){
+	// Genere un tableau contenant une chaine par case, cette chaine correspond au numéro de
+	// case de tabNotes suivi de la valeur de la case, un zero est ajouté si nécessaire
+	for (int i = 0 ; i < tabNotesChaine.length ; i++){
 	    if (i < 10)
-		bas[i] = "0" + i;
+		tabNotesChaine[i] = "0" + i;
 	    else
-		bas[i] = "" + i;
+		tabNotesChaine[i] = "" + i;
+
+	    if (tabNotes[i] < 10)
+		tabNotesChaine[i] += "0" + tabNotes[i];
+	    else
+		tabNotesChaine[i] += "" + tabNotes[i];
 	}
-	return bas;
     }
 
     void historigrammeV(){
@@ -132,21 +124,15 @@ class Notes{
 
     void historigrammeH(){
 	// Affiche un historigramme horizontale
-	String[] bas;
-
-	bas = historigrammeBas();
-	
 	for (int i = plusHauteNote() ; i >= -1 ; i--){
 	    for (int j = 0 ; j < tabNotes.length ; j ++){
-
 		// ces lignes affiche le bas de l'historigramme
 		if (i < 1){
 		    if (i == 0)
-			System.out.print(bas[j].charAt(0) + " ");
+			System.out.print(tabNotesChaine[j].charAt(0) + " ");
 		    else
-			System.out.print(bas[j].charAt(1) + " ");
+			System.out.print(tabNotesChaine[j].charAt(1) + " ");
 		}
-
 		// Ces ligne permettent de définir si il faut mettre des espaces
 		// ou un caractere
 		else if (tabNotes[j] >= i)
