@@ -92,7 +92,7 @@ class Notes{
 		// Ces ligne permettent de définir si il faut mettre des espaces
 		// ou un caractere
 		else if (tabNotes[j] >= i)
-		    System.out.print("- ");
+		    System.out.print("\u2588 ");
 		else
 		    System.out.print("  ");
 	    }
