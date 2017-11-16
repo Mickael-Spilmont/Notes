@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Random;
 
 class Notes{
     private int[] tabNotes;
@@ -17,6 +18,18 @@ class Notes{
 	while (note >= 0 && note <= 20){
 	    tabNotes[note] ++;
 	    note = sc.nextInt();
+	}
+    }
+
+    void remplirTableauAleatoire(){
+	// Remplis le tableau généré dans le constructeur de manière aléatoire,
+	// il genere un nombre compris entre 0 et 10 dans chaque case
+	Random generateur;
+
+	generateur = new Random();
+
+	for (int i = 0 ; i < tabNotes.length ; i++){
+	    tabNotes[i] = generateur.nextInt(11);
 	}
     }
 
@@ -109,7 +122,8 @@ class Main{
 	mesNotes = new Notes();
 
 	System.out.println("Veuillez entrez vos notes :");
-	mesNotes.remplirTableau();
+	// mesNotes.remplirTableau();
+	mesNotes.remplirTableauAleatoire();
 	System.out.print("\n");
 	System.out.print(mesNotes.afficherTableau());
 	mesNotes.historigrammeH();
