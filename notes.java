@@ -22,7 +22,8 @@ class Notes{
 	// Permet de remplir le tableau à la main
 	int note;
 	Scanner sc = new Scanner(System.in);
-	
+
+	System.out.println("Entrez vos notes : ");
 	note = sc.nextInt();
 	while (note >= 0 && note <= 20){
 	    tabNotes[note] ++;
@@ -155,17 +156,62 @@ class Notes{
 
 class Main{
     public static void main(String [] args){
+	int reponse;
+	String[] phrases = {
+	    "Bienvenu comment souhaitez vous saisir les notes :\n",
+	    "1 - Manuellement\n2 - Remplir le tableau avec des notes aléatoires\n3 - Quitter le programme\n",
+	    "Reponse incorrecte\n",
+	    "Que souhaitez vous faire\n",
+	    "1 - Afficher le tableau\n2 - Afficher un historigramme vertical\n3 - Afficher un historigramme horizontale\n4 - Afficher tout\n5 - Quitter le programme\n"
+	};
 	Notes mesNotes;
 	Scanner sc = new Scanner(System.in);
 
 	mesNotes = new Notes();
 
-	System.out.println("Veuillez entrez vos notes :");
-	// mesNotes.remplirTableau();
-	mesNotes.remplirTableauAleatoire();
+	System.out.print(phrases[0] + phrases[1]);
+	reponse = sc.nextInt();
 	System.out.print("\n");
-	System.out.print(mesNotes.afficherTableau());
-	System.out.print(mesNotes.historigrammeV());
-	System.out.print(mesNotes.historigrammeH());
+	while (reponse < 1 || reponse > 3){
+	    System.out.print(phrases[2] + phrases[1]);
+	    reponse = sc.nextInt();
+	    System.out.print("\n");
+	}
+
+	switch(reponse){
+	case 1:
+	    mesNotes.remplirTableau();
+	    break;
+	case 2:
+	    mesNotes.remplirTableauAleatoire();
+	    break;
+	default:
+	    System.exit(0);
+	}
+
+	System.out.print(phrases[3] + phrases[4]);
+	reponse = sc.nextInt();
+	System.out.print("\n");
+	while (reponse != 5){
+	    if (reponse == 1)
+		System.out.println(mesNotes.afficherTableau());
+	    else if (reponse == 2)
+		System.out.println(mesNotes.historigrammeV());
+	    else if (reponse == 3)
+		System.out.println(mesNotes.historigrammeH());
+	    else if (reponse == 4){
+		System.out.println(mesNotes.afficherTableau() + "\n");
+		System.out.println(mesNotes.historigrammeV() + "\n");
+		System.out.println(mesNotes.historigrammeH() + "\n");
+	    }
+	    else
+		System.out.println(phrases[1]);
+
+	    System.out.print(phrases[4]);
+	    reponse = sc.nextInt();
+	    System.out.print("\n");
+	}
+
+	System.exit(0);
     }
 }
