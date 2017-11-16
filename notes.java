@@ -3,6 +3,10 @@ import java.util.Random;
 
 class Notes{
     private int[] tabNotes;
+    private String[][] tabBox = {{"\u2554\u2550\u2550\u2566", "\u2550\u2550\u2566", "\u2550\u2550\u2557\n\u2551"},
+				 {"\u2560\u2550\u2550\u256c", "\u2550\u2550\u256c", "\u2550\u2550\u2563\n\u2551"},
+				 {"\u255a\u2550\u2550\u2569", "\u2550\u2550\u2569", "\u2550\u2550\u255d\n"}
+    };
 
     Notes(){
 	// Constructeur, génere un tableau vide de 21 cases
@@ -38,11 +42,52 @@ class Notes{
 	String tableau;
 
 	tableau = "";
-	for (int i = 0 ; i < tabNotes.length ; i++){
-	    if (i < 10)
-		tableau += "0" + i + " -> " + tabNotes[i] + "\n";
-	    else
-		tableau += i + " -> " + tabNotes[i] + "\n";
+	for (int i = 0 ; i < 5 ; i++){
+	    for (int j = 0 ; j < tabNotes.length ; j++){
+
+		if (i == 0){
+		    if (j == 0)
+			System.out.print(tabBox[0][0]);
+		    else if (j == 20)
+			System.out.print(tabBox[0][2]);
+		    else
+			System.out.print(tabBox[0][1]);
+		}
+		else if (i == 2){
+		    if (j == 0)
+			System.out.print(tabBox[1][0]);
+		    else if (j == 20)
+			System.out.print(tabBox[1][2]);
+		    else
+			System.out.print(tabBox[1][1]);
+		}
+		else if (i == 4){
+		    if (j == 0)
+			System.out.print(tabBox[2][0]);
+		    else if (j == 20)
+			System.out.print(tabBox[2][2]);
+		    else
+			System.out.print(tabBox[2][1]);
+		}
+		else if (i == 1){
+		    if (j < 10)
+		    	System.out.print("0" + j + "\u2551");
+		    else if (j == 20)
+			System.out.print(j + "\u2551\n");
+		    else
+		    	System.out.print(j + "\u2551");
+		}
+		else{
+		    if (tabNotes[j] < 10 && j != 20)
+		    	System.out.print("0" + tabNotes[j] + "\u2551");
+		    else if (tabNotes[j] < 10 && j == 20)
+			System.out.print("0" + tabNotes[j] + "\u2551\n");
+		    else if (j == 20)
+			System.out.print(j + "\u2551\n");
+		    else
+		    	System.out.print(tabNotes[j] + "\u2551");
+		}
+	    }
 	}
 	return tableau;
     }
