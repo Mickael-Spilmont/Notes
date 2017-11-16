@@ -111,15 +111,19 @@ class Notes{
 	}
     }
 
-    void historigrammeV(){
-	// Affiche un historigrame vertical
+    String historigrammeV(){
+	// Affiche un historigramme vertical
+	String historigramme;
+
+	historigramme = "";
 	for (int i = 0 ; i < tabNotes.length ; i++){
-	    System.out.print(i + " | ");
+	    historigramme += tabNotesChaine[i].substring(0,2) + " ";
 	    for (int j = 0 ; j < tabNotes[i] ; j++){
-		System.out.print("#");
+		historigramme += "\u25ac\u25ac";
 	    }
-	    System.out.print("\n");
+	    historigramme += "\n";
 	}
+	return historigramme;
     }
 
     String historigrammeH(){
@@ -161,6 +165,7 @@ class Main{
 	mesNotes.remplirTableauAleatoire();
 	System.out.print("\n");
 	System.out.print(mesNotes.afficherTableau());
+	System.out.print(mesNotes.historigrammeV());
 	System.out.print(mesNotes.historigrammeH());
     }
 }
