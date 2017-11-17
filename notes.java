@@ -30,6 +30,7 @@ class Notes{
 	    note = sc.nextInt();
 	}
 	remplirTableauChaine();
+	System.out.println("\n" + separateur() + "\n");
     }
 
     void remplirTableauAleatoire(){
@@ -44,6 +45,45 @@ class Notes{
 	}
 	remplirTableauChaine();
     }
+
+    int plusHauteNote(){
+	// Trouve la plus haute note du tableau
+	int noteMax;
+
+	noteMax = -1;
+	for (int i = 0 ; i < tabNotes.length ; i++){
+	    if (tabNotes[i] > noteMax){
+		noteMax = tabNotes[i];
+	    }
+	}
+	return noteMax;
+    }
+
+    void remplirTableauChaine(){
+	// Genere un tableau contenant une chaine par case, cette chaine correspond au numéro de
+	// case de tabNotes suivi de la valeur de la case, un zero est ajouté si nécessaire
+	for (int i = 0 ; i < tabNotesChaine.length ; i++){
+	    if (i < 10)
+		tabNotesChaine[i] = "0" + i;
+	    else
+		tabNotesChaine[i] = "" + i;
+
+	    if (tabNotes[i] < 10)
+		tabNotesChaine[i] += "0" + tabNotes[i];
+	    else
+		tabNotesChaine[i] += "" + tabNotes[i];
+	}
+    }
+
+    String separateur(){
+	String separateur;
+
+	separateur = "";
+	for (int i = 0 ; i <= 65 ; i++){
+	    separateur += "\u2501";
+	}
+	return separateur;
+    }    
 
     String afficherTableau(){
 	// Affiche le contenu du tableau, en construisant une chaine à partir des tableaux ()
@@ -80,38 +120,10 @@ class Notes{
 		}
 	    }
 	}
+	tableau += "\n" + separateur() + "\n";
 	return tableau;
     }
-
-    int plusHauteNote(){
-	// Trouve la plus haute note du tableau
-	int noteMax;
-
-	noteMax = -1;
-	for (int i = 0 ; i < tabNotes.length ; i++){
-	    if (tabNotes[i] > noteMax){
-		noteMax = tabNotes[i];
-	    }
-	}
-	return noteMax;
-    }
-
-    void remplirTableauChaine(){
-	// Genere un tableau contenant une chaine par case, cette chaine correspond au numéro de
-	// case de tabNotes suivi de la valeur de la case, un zero est ajouté si nécessaire
-	for (int i = 0 ; i < tabNotesChaine.length ; i++){
-	    if (i < 10)
-		tabNotesChaine[i] = "0" + i;
-	    else
-		tabNotesChaine[i] = "" + i;
-
-	    if (tabNotes[i] < 10)
-		tabNotesChaine[i] += "0" + tabNotes[i];
-	    else
-		tabNotesChaine[i] += "" + tabNotes[i];
-	}
-    }
-
+    
     String historigrammeV(){
 	// Affiche un historigramme vertical
 	String historigramme;
@@ -124,6 +136,7 @@ class Notes{
 	    }
 	    historigramme += "\n";
 	}
+	historigramme += "\n" + separateur() + "\n";
 	return historigramme;
     }
 
@@ -150,6 +163,7 @@ class Notes{
 	    }
 	    historigramme += "\n";
 	}
+	historigramme += "\n" + separateur() + "\n";
 	return historigramme;
     }
 }
@@ -162,7 +176,8 @@ class Main{
 	    "1 - Manuellement\n2 - Remplir le tableau avec des notes aléatoires\n3 - Quitter le programme\n",
 	    "Reponse incorrecte\n",
 	    "Que souhaitez vous faire\n",
-	    "1 - Afficher le tableau\n2 - Afficher un historigramme vertical\n3 - Afficher un historigramme horizontale\n4 - Afficher tout\n5 - Quitter le programme\n"
+	    "1 - Afficher le tableau\n2 - Afficher un historigramme vertical\n3 - Afficher un historigramme horizontale\n4 - Quitter le programme\n",
+	    "Fin du programme"
 	};
 	Notes mesNotes;
 	Scanner sc = new Scanner(System.in);
@@ -186,32 +201,28 @@ class Main{
 	    mesNotes.remplirTableauAleatoire();
 	    break;
 	default:
+	    System.out.println(phrases[5]);
 	    System.exit(0);
 	}
 
 	System.out.print(phrases[3] + phrases[4]);
 	reponse = sc.nextInt();
 	System.out.print("\n");
-	while (reponse != 5){
+	while (reponse != 4){
 	    if (reponse == 1)
 		System.out.println(mesNotes.afficherTableau());
 	    else if (reponse == 2)
 		System.out.println(mesNotes.historigrammeV());
 	    else if (reponse == 3)
 		System.out.println(mesNotes.historigrammeH());
-	    else if (reponse == 4){
-		System.out.println(mesNotes.afficherTableau() + "\n");
-		System.out.println(mesNotes.historigrammeV() + "\n");
-		System.out.println(mesNotes.historigrammeH() + "\n");
-	    }
 	    else
-		System.out.println(phrases[1]);
+		System.out.println(phrases[2]);
 
 	    System.out.print(phrases[4]);
 	    reponse = sc.nextInt();
 	    System.out.print("\n");
 	}
-
+	System.out.println(phrases[5]);
 	System.exit(0);
     }
 }
